@@ -5,6 +5,7 @@ using UnityEngine;
 class InputObject : MonoBehaviour{
     public int direction;
     public TextMeshPro textMesh;
+    public CustomPathPlugin pathPlugin;
 
     private bool triggered = false;
     private string text;
@@ -17,7 +18,15 @@ class InputObject : MonoBehaviour{
     private void OnTriggerEnter(Collider other) {
         if(!triggered) {
             triggered = true;
-            CustomPathPlugin.instance.ChangePath(direction);
+            if(direction == 0)
+            {
+                if(pathPlugin != null)
+                    pathPlugin.HideUI();
+            }
+            else
+            {
+                CustomPathPlugin.instance.ChangePath(direction);
+            }
             textMesh.text = "<color=red>" + text + "</color>";
         }
     }

@@ -7,8 +7,6 @@
     <ProjectGuid>{09F7466F-7007-49E6-BBE2-C81718554523}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CustomPathCameraBehaviour</RootNamespace>
-    <AssemblyName>CustomPathCameraBehaviour</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,10 +18,23 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
+    <RootNamespace>CustomPathCameraBehaviour</RootNamespace>
+    <AssemblyName>CustomPathCameraBehaviour</AssemblyName>
   </PropertyGroup>
   <PropertyGroup>
     <LIVBaseDirectory>$(Registry:HKEY_CURRENT_USER\Software\LIV.App@BaseDirectory)</LIVBaseDirectory>
     <VIVRAssemblies>$(LIVBaseDirectory)\resources\VIVR\VIVR_Data\Managed</VIVRAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PluginHide|x64'">
+    <OutputPath>bin\x64\PluginHide\</OutputPath>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DefineConstants>HIDDEN</DefineConstants>
+    <RootNamespace>CustomPathCameraHideBehaviour</RootNamespace>
+    <AssemblyName>CustomPathCameraHideBehaviour</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
@@ -74,4 +85,9 @@
       <Output TaskParameter="Value" PropertyName="AssemblySearchPaths" />
     </CreateProperty>
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>FOR /F "tokens=3* delims= " %25%25a in ('reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Personal"') do @(Set UserDocuments=%25%25a)
+echo Copying  $(TargetPath) to %25UserDocuments%25\LIV\Plugins\CameraBehaviours
+copy $(TargetPath) %25UserDocuments%25\LIV\Plugins\CameraBehaviours</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -1,5 +1,9 @@
 # LIV Avatar Camera Custom Path Plugin
+
 A plugin to control the LIV avatar camera using custom paths.
+
+### Moxie "fix":
+It now comes with two plugins: one for choosing the path, and one for hiding the UI.
 ### Editor
 You can snag the path editor [here](https://github.com/realityquintupled/LIV-CustomPathCameraBehaviour-Editor/releases).
 ### Controls

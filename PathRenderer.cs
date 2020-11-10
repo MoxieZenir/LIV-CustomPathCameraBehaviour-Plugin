@@ -4,6 +4,7 @@ using UnityEngine;
 class PathRenderer : MonoBehaviour {
     private LineRenderer lr;
     private List<Vector3> points;
+    private bool hidden = true;
 
     private void Awake() {
         lr = gameObject.AddComponent<LineRenderer>();
@@ -18,15 +19,18 @@ class PathRenderer : MonoBehaviour {
             pointObj.transform.position = point;
             pointObj.transform.parent = transform;
             pointObj.transform.localScale = new Vector3(.05f, .05f, .05f);
+            if (hidden) {
+                pointObj.GetComponent<MeshRenderer>().enabled = false;
+            }
         }
     }
 
     public void ClearPoints() {
         foreach (Transform point in transform)
             Destroy(point.gameObject);
-    }
+        }
 
-    public void RenderSpline(Spline spline, float c) {
+        public void RenderSpline(Spline spline, float c) {
         if (points.Count < 3) {
             lr.positionCount = 0;
             return;
@@ -38,5 +42,13 @@ class PathRenderer : MonoBehaviour {
         dp[dp.Length - 1] = dp[0];
         lr.positionCount = dp.Length;
         lr.SetPositions(dp);
+    }
+
+    public void HidePath()
+    {
+        lr.enabled = false;
+        foreach (Transform point in transform)
+            point.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        hidden = true;
     }
 }
